@@ -4,7 +4,10 @@ import {Text, View, Image, StyleSheet} from 'react-native';
 import {Button, Switch} from 'react-native-paper';
 import CircleSlider from "react-native-circle-slider";
 import {ContainerMain, ContainerHeader, ContainerBody, ContainerContent} from './styles';
+import Slider from '@react-native-community/slider';
 
+
+// import VolumeSlider from 'react-native-volume-slider';
 
 export default function Config() {
     const navigation = useNavigation();
@@ -46,7 +49,7 @@ export default function Config() {
 
     })
 
-
+    
 
     return (
 
@@ -66,7 +69,14 @@ export default function Config() {
                 <ContainerBody>
                     <View>
                         <Text>Volume do Alarme</Text>
-                        <CircleSlider value={90} />
+                        <Slider
+                            style={{width: 360, height: 40}}
+                            minimumValue={0}
+                            maximumValue={100}
+                            maximumTrackTintColor="#FFFFFF"
+                            minimumTrackTintColor="#000000"
+
+                        />
                         <ContainerContent>
                             <Text>Notificações</Text>
                             <Switch value={notifications} onValueChange={async(value) => {await setNotification(value)}} />
@@ -83,7 +93,21 @@ export default function Config() {
                             <Text>Tamanho da Letra</Text>                
                         </ContainerContent>
                     </View>
+                    
                 </ContainerBody>
+                
+                
+                
+                {/* <VolumeSlider
+                    thumbSize={{
+                        width: 8,
+                        height: 8
+                      }}
+                      thumbTintColor="rgb(146,146,157)"
+                      minimumTrackTintColor="rgb(146,146,157)"
+                      maximumTrackTintColor="rgba(255,255,255, 0.1)"
+                      showsRouteButton
+                /> */}
             </ContainerMain>
         </View>
     )

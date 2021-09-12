@@ -1,15 +1,25 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useRef} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {Text, View, Image, StyleSheet} from 'react-native';
 import {Button, Switch} from 'react-native-paper';
-import CircleSlider from "react-native-circle-slider";
-import {ContainerMain, ContainerHeader, ContainerBody, ContainerContent} from './styles';
+import {ContainerMain, ContainerHeader, ContainerBody, ContainerContent, MenuText, ContainerSlider} from './styles';
 import Slider from '@react-native-community/slider';
+import {Picker} from '@react-native-picker/picker';
 
 
 // import VolumeSlider from 'react-native-volume-slider';
 
 export default function Config() {
+    const [selectedLanguage, setSelectedLanguage] = useState();
+    const pickerRef = useRef();
+
+    function open() {
+      pickerRef.current.focus();
+    }
+    
+    function close() {
+      pickerRef.current.blur();
+    }
     const navigation = useNavigation();
     const [notifications, setNotification] = useState(false);
     const [vibration, setVibration] = useState(false);
@@ -68,30 +78,44 @@ export default function Config() {
             
                 <ContainerBody>
                     <View>
-                        <Text>Volume do Alarme</Text>
-                        <Slider
-                            style={{width: 360, height: 40}}
-                            minimumValue={0}
-                            maximumValue={100}
-                            maximumTrackTintColor="#FFFFFF"
-                            minimumTrackTintColor="#000000"
+                        <ContainerSlider>
+                            <MenuText>Volume do Alarme</MenuText>
+                            <Slider
+                                style={{width: 360, height: 40}}
+                                minimumValue={0}
+                                maximumValue={100}
+                                maximumTrackTintColor="#FFFFFF"
+                                minimumTrackTintColor="#000000"
 
-                        />
+                            />
+                         </ContainerSlider>
                         <ContainerContent>
-                            <Text>Notificações</Text>
+                            <MenuText>Notificações</MenuText>
                             <Switch value={notifications} onValueChange={async(value) => {await setNotification(value)}} />
                         </ContainerContent>
                         <ContainerContent>
-                            <Text>Vibrar</Text>
+                            <MenuText>Vibrar</MenuText>
                             <Switch value={vibration} onValueChange={async(value) => {await setVibration(value)}} /> 
                         </ContainerContent>
                         <ContainerContent>
-                            <Text>Modo Escuro</Text>
+                            <MenuText>Modo Escuro</MenuText>
                             <Switch value={darkMode} onValueChange={async(value) => {await setDarkMode(value)}} />
                         </ContainerContent>
                         <ContainerContent>
-                            <Text>Tamanho da Letra</Text>                
+                            <MenuText>Tamanho da Letra</MenuText>    
+                            <Picker
+                                    ref={pickerRef}
+                                    style={{height: 20, width: 95, marginTop: -15}}
+                                    selectedValue={selectedLanguage}
+                                    onValueChange={(itemValue, itemIndex) =>
+                                        setSelectedLanguage(itemValue)
+                                    }>
+                                    <Picker.Item key={0} label="P" value="P" />
+                                    <Picker.Item key={1} label="M" value="M" />
+                                    <Picker.Item key={2} label="G" value="G" />
+                                </Picker>    
                         </ContainerContent>
+                        
                     </View>
                     
                 </ContainerBody>

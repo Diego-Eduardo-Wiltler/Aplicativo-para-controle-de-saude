@@ -4,8 +4,19 @@ import {Text, View, Image, StyleSheet} from 'react-native';
 import {Button, Title} from 'react-native-paper';
 import {ContainerMain, ContainerHeader, ContainerBody, ContainerContent, MenuText, ContainerSlider} from './styles';
 import {Picker} from '@react-native-picker/picker';
+import MultiSelect from '../../components/MultiSelect/index.js';
+import { MultiSelectWeekDays } from './styles';
 
 export default function Horas() {
+    const items = [{
+        id: "1",
+        name: 'Segunda'
+      }, {
+        id: '2',
+        name: 'Terça'
+      },
+    ];
+    const [selectedItems, setSelectedItems] = useState([]);
     const [selectedLanguage, setSelectedLanguage] = useState();
     const pickerRef = useRef();
 
@@ -90,6 +101,18 @@ export default function Horas() {
                         </ContainerContent>
                         <ContainerContent>
                             <Text>Defina os dias</Text>
+                            
+                            <View style={{ flex: 1 }}>
+                                <MultiSelectWeekDays
+                                data = {items}
+                                labelFiled = "label"
+                                valueFiled = "value"
+                                onChange = {() => {} }
+                                />
+                               
+                                </View>
+
+      
                         </ContainerContent>
                         <ContainerContent>
                             <Text>Insira o nome do remédio (opicional)</Text> 

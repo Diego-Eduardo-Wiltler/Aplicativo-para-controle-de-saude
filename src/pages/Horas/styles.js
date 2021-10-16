@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
-
+import {MultiSelect} from 'react-native-element-dropdown';
 export const ContainerMain = styled.ScrollView`
 
 
@@ -33,3 +33,7 @@ export const ContainerSlider = styled.Text`
 margin: ${RFValue(30)}px ${RFValue(0)}px ${RFValue(40)}px ${RFValue(0)}px;
 `;
 
+export const MultiSelectWeekDays = styled(MultiSelect)`
+width: 100px;
+height: 50px;  
+`

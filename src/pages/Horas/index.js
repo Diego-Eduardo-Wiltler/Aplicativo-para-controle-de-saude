@@ -1,11 +1,10 @@
 import React, {useState, useRef} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {Text, View, Image, StyleSheet} from 'react-native';
-import {Button, Title} from 'react-native-paper';
+import {Button, Title, TextInput} from 'react-native-paper';
 import {ContainerMain, ContainerHeader, ContainerBody, ContainerContent, MenuText, ContainerSlider} from './styles';
 import {Picker} from '@react-native-picker/picker';
 import MultiSelect from '../../components/MultiSelect/index.js';
-import { MultiSelectWeekDays } from './styles';
 
 export default function Horas() {
     const items = [{
@@ -18,15 +17,15 @@ export default function Horas() {
     ];
     const [selectedItems, setSelectedItems] = useState([]);
     const [selectedLanguage, setSelectedLanguage] = useState();
+    const [remedio, setRemedio] = useState();
+    const [exercicio, setExercicio] = useState();
     const pickerRef = useRef();
+   
+    const onSelectedItemsChange = (selectedItems) => {
+      // Set Selected Items
+      setSelectedItems(selectedItems);
+    };
 
-    function open() {
-      pickerRef.current.focus();
-    }
-    
-    function close() {
-      pickerRef.current.blur();
-    }
     const navigation = useNavigation();
     const styles = StyleSheet.create({
 
@@ -66,10 +65,9 @@ export default function Horas() {
 
 
     return (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{flex: 1, flexDirection:"column"}}>
             <ContainerMain>
                 <ContainerHeader>
-            
                     <Button labelStyle={styles.buttonText} mode="contained" color="purple" 
                         title='Entrar' onPress={() => {navigation.navigate('Config')}}>
                         OPÇÕES
@@ -79,65 +77,93 @@ export default function Horas() {
                     VOLTAR
                     </Button> 
                 </ContainerHeader>
-                    <Title>Defina os horários</Title>
                 <ContainerBody>
                     <View>
+                    {/* <Text>Defina os horários</Text> */}
                         <ContainerContent>
-                            <Text>Escolha o tipo</Text>
+                            <MenuText>Defina horário</MenuText>
+                        </ContainerContent>
+                        <ContainerContent>
+                            <MenuText>Escolha o tipo</MenuText>
                             <Picker
-                                    ref={pickerRef}
-                                    style={{height: 20, width: 95, marginTop: -15}}
-                                    selectedValue={selectedLanguage}
-                                    onValueChange={(itemValue, itemIndex) =>
-                                        setSelectedLanguage(itemValue)
-                                    }>
-                                    <Picker.Item key={0} label="P" value="P" />
-                                    <Picker.Item key={1} label="M" value="M" />
-                                    <Picker.Item key={2} label="G" value="G" />
-                                </Picker>    
-                        </ContainerContent>
-                        <ContainerContent>
-                            <Text>Defina horário</Text>
-                        </ContainerContent>
-                        <ContainerContent>
-                            <Text>Defina os dias</Text>
-                            
-                            <View style={{ flex: 1 }}>
-                                <MultiSelectWeekDays
-                                data = {items}
-                                labelFiled = "label"
-                                valueFiled = "value"
-                                onChange = {() => {} }
-                                />
-                               
-                                </View>
+                                ref={pickerRef}
+                                style={{height: 20, width: 155, marginTop: -15, marginLeft: 70}}
+                                selectedValue={selectedLanguage}
+                                onValueChange={(itemValue, itemIndex) =>
+                                    setSelectedLanguage(itemValue)
+                                }>
+                                <Picker.Item key={0} label="Remédio" value="R" />
+                                <Picker.Item key={1} label="Exercício" value="E" />
+                                <Picker.Item key={2} label="Nenhum" value="N" />
 
-      
+                            </Picker>    
                         </ContainerContent>
                         <ContainerContent>
-                            <Text>Insira o nome do remédio (opicional)</Text> 
-                        </ContainerContent>   
-                        <ContainerContent>            
-                            <Text>Insira o nome do exercício (opicional)</Text>
+                            <View style={{ flex: 1 }}>
+                                <View style={{ flex: 1 }}>
+                                <MenuText>Defina os dias</MenuText>
+                                </View>
+                                <View style={{ flex: 1 }}>
+                                    <MultiSelect
+                                        hideTags
+                                        items={items}
+                                        styleMainWrapper={{ marginTop: 10}}
+                                        uniqueKey="id"
+                                        onSelectedItemsChange={onSelectedItemsChange}
+                                        selectedItems={selectedItems}
+                                        selectText="    Selecione os dias da semana"
+                                        searchInputPlaceholderText="Procure algum dia..."
+                                        onChangeInput={(text) => console.log(text)}
+                                        tagRemoveIconColor="#CCC"
+                                        tagBorderColor="#CCC"
+                                        tagTextColor="#CCC"
+                                        selectedItemTextColor="#CCC"
+                                        selectedItemIconColor="#CCC"
+                                        itemTextColor="#000"
+                                        displayKey="name"
+                                        searchInputStyle={{color: '#CCC'}}
+                                        submitButtonColor="#48d22b"
+                                        noItemsText="Nenhum item encontrado"
+                                        styleTextTag={{fontSize: 100}}
+                                        fontSize={19}
+                                        styleTextDropdownSelected={{height:30}}
+                                        styleTextDropdown={{height:30}}
+                                        submitButtonText="Confirmar"
+                                    />   
+                                </View>
+                            </View>
                         </ContainerContent>
-                    
+                        <ContainerContent>
+                            <View style={{ flex: 1 }}>
+                                <View style={{ flex: 1 }}>
+                                <MenuText>Insira o nome do remédio (opicional)</MenuText> 
+                                </View>
+                                <View style={{ flex: 1 }}>
+                                    <TextInput
+                                    label="remedio"
+                                    value={remedio}
+                                    onChangeText={remedio => setRemedio(remedio)}
+                                    />
+                                </View>
+                            </View>
+                        </ContainerContent>   
+                        <ContainerContent>  
+                            <View style={{ flex: 1 }}>
+                                <View style={{ flex: 1 }}>          
+                                    <MenuText>Insira o nome do exercício (opicional)</MenuText>
+                                </View>
+                                <View style={{ flex: 1 }}>
+                                    <TextInput
+                                    label="exercício"
+                                    value={exercicio}
+                                    onChangeText={exercicio => setExercicio(exercicio)}
+                                    />
+                                </View>
+                            </View>
+
+                        </ContainerContent>
                     </View>
-                    {/* <Image
-                        style={styles.tinyLogo}
-                        source={{
-                            uri: 'https://reactnative.dev/img/tiny_logo.png',
-                        }}
-                    />
-                    <Button style={styles.button} labelStyle={styles.buttonText1} mode="contained" color="purple" 
-                        title='Entrar' onPress={() => {navigation.navigate('Home')}}>
-                        SEUS HORÁRIOS
-                    </Button>
-                    
-                    <Button style={styles.button} labelStyle={styles.buttonText1} mode="contained" color="purple" 
-                        title='Entrar' onPress={() => {navigation.navigate('Home')}}>
-                        DEFINIR HORÁRIOS
-                    </Button> */}
-                </ContainerBody>       
+                </ContainerBody>
             </ContainerMain>
         </View>
     )

@@ -8,20 +8,20 @@ export const ContainerMain = styled.ScrollView`
 
 export const ContainerHeader = styled.View`
 flex-direction: row-reverse;
-margin: ${RFValue(20)}px ${RFValue(53)}px ${RFValue(52)}px ${RFValue(53)}px;
-justify-content: space-between;
+margin: ${RFValue(20)}px ${RFValue(0)}px ${RFValue(20)}px ${RFValue(0)}px;
+justify-content: space-around;
 `;
 
 export const ContainerBody = styled.View`
 flex-direction: row;
-justify-content: center;
-alignItems: center;
+justify-content: flex-start;
 flex: 2;
 `;
 
 export const ContainerContent = styled.View`
 flex-direction: row;
-margin: ${RFValue(0)}px ${RFValue(0)}px ${RFValue(50)}px ${RFValue(0)}px;
+margin: ${RFValue(0)}px ${RFValue(0)}px ${RFValue(60)}px ${RFValue(0)}px;
+justify-content: space-between;
 flex: 2;
 `;
 

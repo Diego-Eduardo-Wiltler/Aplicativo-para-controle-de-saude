@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Config from './pages/Config';
 import Horas from './pages/Horas';
+import Horass from './pages/Horas';
 import {Button} from 'react-native-paper';
 
 
@@ -17,7 +18,7 @@ export default function Routes(){
                <App.Screen name="Login" options={{headerShown: false}} component={Login}/> 
                <App.Screen name="Home" options={{headerShown: false}} component={Home}/> 
                <App.Screen name="Config" options={{headerShown: false}} component={Config}/> 
-               <App.Screen name="Horas" options={{headerShown: false}} component={Horas}/> 
+               <App.Screen name="Horas" options={{headerShown: false}} component={Horass}/> 
             </App.Navigator>
         </NavigationContainer>
     )

@@ -15,12 +15,6 @@ export default function Home() {
             height: "9%",
 
           },
-
-          button2: {
-
-
-          },
-
           buttonText: {
             fontSize: 22,
             fontFamily:"Blippo, fantasy",
@@ -31,8 +25,6 @@ export default function Home() {
                 fontFamily:"Blippo, fantasy",
                
                 },
-
-
           tinyLogo: {
             width: 150,
             height: 150,
@@ -41,8 +33,6 @@ export default function Home() {
           },
 
     })
-
-
 
     return (
         <View style={{flexDirection:"column", flex: 1}}>

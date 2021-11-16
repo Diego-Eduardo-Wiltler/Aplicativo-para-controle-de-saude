@@ -26,7 +26,7 @@ flex: 2;
 `;
 
 export const MenuText = styled.Text`
-font-size: 20;
+font-size: 20px;
 `;
 
 export const ContainerSlider = styled.Text`

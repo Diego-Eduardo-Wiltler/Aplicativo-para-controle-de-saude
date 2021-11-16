@@ -56,7 +56,7 @@ export default function Home() {
                     }}
                 />
                 <Button style={styles.button} labelStyle={styles.buttonText1} mode="contained" color="purple" 
-                    title='Entrar' onPress={() => {navigation.navigate('Home')}}>
+                    title='Entrar' onPress={() => {navigation.navigate('SeusHorarios')}}>
                     SEUS HORÁRIOS
                 </Button>
                 

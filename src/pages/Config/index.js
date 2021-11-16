@@ -1,13 +1,11 @@
-import React, {useState, useRef} from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, {useState, useRef, useReducer} from 'react';
+import { useNavigation, useIsFocused} from '@react-navigation/native';
 import {Text, View, Image, StyleSheet} from 'react-native';
 import {Button, Switch} from 'react-native-paper';
 import {ContainerMain, ContainerHeader, ContainerBody, ContainerContent, MenuText, ContainerSlider} from './styles';
 import Slider from '@react-native-community/slider';
 import {Picker} from '@react-native-picker/picker';
-
-
-// import VolumeSlider from 'react-native-volume-slider';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Config() {
     const [selectedLanguage, setSelectedLanguage] = useState();
@@ -24,6 +22,15 @@ export default function Config() {
     const [notifications, setNotification] = useState(false);
     const [vibration, setVibration] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
+
+    const setAsyncStates = async () => {
+        await AsyncStorage.getItem('darkMode').then((value) => setDarkMode(JSON.parse(value) ?? false))
+    };
+    setAsyncStates();
+    const setDarkModeWithStorage = async (value) => {
+        setDarkMode(value);
+        await AsyncStorage.setItem('darkMode', value.toString());
+    }
     const styles = StyleSheet.create({
 
         button: {
@@ -71,15 +78,14 @@ export default function Config() {
                         HORÁRIOS
                     </Button>
                     <Button  labelStyle={styles.buttonText} mode="contained" color="purple" 
-                        title='Entrar' onPress={() => {navigation.goBack()}}>
+                        title='Entrar' onPress={() => {navigation.navigate('Home')}}>
                     VOLTAR
                     </Button> 
                 </ContainerHeader>
-            
                 <ContainerBody>
                     <View>
-                        <ContainerSlider>
                             <MenuText>Volume do Alarme</MenuText>
+                        <ContainerSlider>
                             <Slider
                                 style={{width: 360, height: 40}}
                                 minimumValue={0}
@@ -99,7 +105,7 @@ export default function Config() {
                         </ContainerContent>
                         <ContainerContent>
                             <MenuText>Modo Escuro</MenuText>
-                            <Switch value={darkMode} onValueChange={async(value) => {await setDarkMode(value)}} />
+                            <Switch value={darkMode} onValueChange={async(value) => {await setDarkModeWithStorage(value)}} />
                         </ContainerContent>
                         <ContainerContent>
                             <MenuText>Tamanho da Letra</MenuText>    

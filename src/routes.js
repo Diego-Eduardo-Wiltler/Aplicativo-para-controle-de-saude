@@ -28,15 +28,22 @@ export default function Routes(){
     const setAsyncStates = async () => {
         await AsyncStorage.getItem('darkMode').then((value) => setDarkMode(JSON.parse(value) ?? false))
     };
+    const verifyAlarms = async () => {
+        a = await AsyncStorage.getItem('alarms').then((value) => JSON.parse(value))
+        if (a === undefined || a === null) {
+            await AsyncStorage.setItem('alarms', '[]');
+        }
+    };
+    verifyAlarms();
     var myInterval = setInterval(setAsyncStates, 1000);
 
     return (
         <NavigationContainer theme={darkMode ? MyTheme : DefaultTheme }>
             <App.Navigator>
-               <App.Screen name="Login" options={{headerShown: false}} component={Login}/> 
-               <App.Screen name="Home" options={{headerShown: false}} component={Home}/> 
-               <App.Screen name="Config" options={{headerShown: false}} component={Config}/> 
+               {/* <App.Screen name="Login" options={{headerShown: false}} component={Login}/>  */}
+               {/* <App.Screen name="Home" options={{headerShown: false}} component={Home}/>  */}
                <App.Screen name="Horas" options={{headerShown: false}} component={Horas}/> 
+               <App.Screen name="Config" options={{headerShown: false}} component={Config}/> 
                <App.Screen name="SeusHorarios" options={{headerShown: false}} component={SeusHorarios}/> 
 
             </App.Navigator>

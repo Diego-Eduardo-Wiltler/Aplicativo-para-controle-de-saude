@@ -1,5 +1,7 @@
+import {useState} from 'react';
 import styled from 'styled-components/native';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const ContainerMain = styled.ScrollView`
 
@@ -8,7 +10,7 @@ export const ContainerMain = styled.ScrollView`
 
 export const ContainerHeader = styled.View`
 flex-direction: row-reverse;
-margin: ${RFValue(20)}px ${RFValue(0)}px ${RFValue(20)}px ${RFValue(0)}px;
+margin: ${RFValue(20)}px ${RFValue(0)}px ${RFValue(60)}px ${RFValue(0)}px;
 justify-content: space-around;
 `;
 
@@ -26,7 +28,7 @@ flex: 2;
 `;
 
 export const MenuText = styled.Text`
-font-size: 20px;
+font-size: ${props => props.inputSize || "20"}px;
 `;
 
 export const ContainerSlider = styled.Text`

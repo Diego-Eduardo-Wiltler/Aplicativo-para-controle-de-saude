@@ -12,7 +12,6 @@ export default function SeusHorarios() {
     const styles = StyleSheet.create({
         button: {
             marginTop: "10%",
-            // width: "30%",
             height: "9%",
 
           },
@@ -43,7 +42,6 @@ export default function SeusHorarios() {
             width: 150,
             height: 150,
             marginBottom: "10%",
-            // marginTop: "90%",
           },
 
     })

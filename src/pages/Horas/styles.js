@@ -13,23 +13,23 @@ justify-content: space-between;
 `;
 
 export const ContainerBody = styled.View`
-flex-direction: row;
-justify-content: center;
-alignItems: center;
-flex: 2;
+    padding-left: 30px;
+    padding-right: 30px;
 `;
 
 export const ContainerContent = styled.View`
-flex-direction: row;
 margin: ${RFValue(0)}px ${RFValue(0)}px ${RFValue(50)}px ${RFValue(0)}px;
-flex: 2;
+flex-wrap: wrap;
+display: flex;
+width: 460px;
+flex-direction: row;
+`;
+
+export const ContainerCol = styled.View`    
+    min-width: ${props => props.widthCol || "250"}px;
 `;
 
 export const MenuText = styled.Text`
-font-size: 20;
-`;
-
-export const ContainerSlider = styled.Text`
-margin: ${RFValue(30)}px ${RFValue(0)}px ${RFValue(40)}px ${RFValue(0)}px;
+font-size: ${props => props.inputSize || "20"}px;
 `;
 

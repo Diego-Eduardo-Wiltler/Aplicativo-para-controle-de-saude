@@ -8,8 +8,14 @@ import {Picker} from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Config() {
-    const [selectedLanguage, setSelectedLanguage] = useState();
+    const [selectedTextSize, setSelectedTextSize] = useState();
     const pickerRef = useRef();
+
+    // const setAsyncStates = async () => {
+    //     var a = await AsyncStorage.getItem('darkMode').then((value) => JSON.parse(value) ?? false)
+    //     var myInterval = setInterval(setAsyncStates, 1000);
+    //     return a;
+    // };
 
     function open() {
       pickerRef.current.focus();
@@ -25,17 +31,23 @@ export default function Config() {
 
     const setAsyncStates = async () => {
         await AsyncStorage.getItem('darkMode').then((value) => setDarkMode(JSON.parse(value) ?? false))
+        await AsyncStorage.getItem('selectedTextSize').then((value) => setSelectedTextSize(value))
     };
     setAsyncStates();
     const setDarkModeWithStorage = async (value) => {
         setDarkMode(value);
         await AsyncStorage.setItem('darkMode', value.toString());
     }
+    const selectedTextSizeWithStorage = async (value) => {
+        console.log(value);
+        console.log(typeof(value));
+        setSelectedTextSize(value);
+        await AsyncStorage.setItem('selectedTextSize', value.toString());
+    }
     const styles = StyleSheet.create({
 
         button: {
             marginTop: "10%",
-            // width: "30%",
             height: "9%",
 
           },
@@ -50,18 +62,15 @@ export default function Config() {
             fontFamily:"Blippo, fantasy",
             },
            
-            buttonText1: {
-                fontSize: 25,
-                fontFamily:"Blippo, fantasy",
-               
-                },
-
+          buttonText1: {
+            fontSize: 25,
+            fontFamily:"Blippo, fantasy",   
+          },
 
           tinyLogo: {
             width: 150,
             height: 150,
             marginBottom: "10%",
-            // marginTop: "90%",
           },
 
     })
@@ -84,7 +93,7 @@ export default function Config() {
                 </ContainerHeader>
                 <ContainerBody>
                     <View>
-                            <MenuText>Volume do Alarme</MenuText>
+                            <MenuText inputSize={selectedTextSize}>Volume do Alarme</MenuText>
                         <ContainerSlider>
                             <Slider
                                 style={{width: 360, height: 40}}
@@ -96,48 +105,33 @@ export default function Config() {
                             />
                          </ContainerSlider>
                         <ContainerContent>
-                            <MenuText>Notificações</MenuText>
+                            <MenuText inputSize={selectedTextSize}>Notificações</MenuText>
                             <Switch value={notifications} onValueChange={async(value) => {await setNotification(value)}} />
                         </ContainerContent>
                         <ContainerContent>
-                            <MenuText>Vibrar</MenuText>
+                            <MenuText inputSize={selectedTextSize}>Vibrar</MenuText>
                             <Switch value={vibration} onValueChange={async(value) => {await setVibration(value)}} /> 
                         </ContainerContent>
                         <ContainerContent>
-                            <MenuText>Modo Escuro</MenuText>
+                            <MenuText inputSize={selectedTextSize}>Modo Escuro</MenuText>
                             <Switch value={darkMode} onValueChange={async(value) => {await setDarkModeWithStorage(value)}} />
                         </ContainerContent>
                         <ContainerContent>
-                            <MenuText>Tamanho da Letra</MenuText>    
+                            <MenuText inputSize={selectedTextSize}>Tamanho da Letra</MenuText>    
                             <Picker
                                     ref={pickerRef}
                                     style={{height: 20, width: 95, marginTop: -15}}
-                                    selectedValue={selectedLanguage}
+                                    selectedValue={selectedTextSize}
                                     onValueChange={(itemValue, itemIndex) =>
-                                        setSelectedLanguage(itemValue)
+                                        selectedTextSizeWithStorage(itemValue)
                                     }>
-                                    <Picker.Item key={0} label="P" value="P" />
-                                    <Picker.Item key={1} label="M" value="M" />
-                                    <Picker.Item key={2} label="G" value="G" />
+                                    <Picker.Item key={0} label="P" value="20" />
+                                    <Picker.Item key={1} label="M" value="25" />
+                                    <Picker.Item key={2} label="G" value="30" />
                                 </Picker>    
                         </ContainerContent>
-                        
-                    </View>
-                    
+                    </View> 
                 </ContainerBody>
-                
-                
-                
-                {/* <VolumeSlider
-                    thumbSize={{
-                        width: 8,
-                        height: 8
-                      }}
-                      thumbTintColor="rgb(146,146,157)"
-                      minimumTrackTintColor="rgb(146,146,157)"
-                      maximumTrackTintColor="rgba(255,255,255, 0.1)"
-                      showsRouteButton
-                /> */}
             </ContainerMain>
         </View>
     )

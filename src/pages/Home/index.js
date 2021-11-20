@@ -11,7 +11,6 @@ export default function Home() {
 
         button: {
             marginTop: "10%",
-            // width: "30%",
             height: "9%",
 
           },
@@ -29,7 +28,6 @@ export default function Home() {
             width: 150,
             height: 150,
             marginBottom: "10%",
-            // marginTop: "90%",
           },
 
     })
@@ -64,7 +62,6 @@ export default function Home() {
                     title='Entrar' onPress={() => {navigation.navigate('Horas')}}>
                     DEFINIR HORÁRIOS
                 </Button>
-
             </View>
         </View>
     )

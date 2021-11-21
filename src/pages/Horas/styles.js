@@ -19,7 +19,7 @@ export const ContainerBody = styled.View`
 
 export const ContainerContent = styled.View`
 margin: ${RFValue(0)}px ${RFValue(0)}px ${RFValue(50)}px ${RFValue(0)}px;
-flex-wrap: wrap;
+flex-wrap: ${props => props.wrap || "wrap"};
 display: flex;
 width: 460px;
 flex-direction: row;

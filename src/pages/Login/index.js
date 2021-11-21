@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {Text, View, Image, StyleSheet} from 'react-native';
 import {Button} from 'react-native-paper';
+
 export default function Login() {
     
     const navigation = useNavigation();
@@ -22,9 +23,8 @@ export default function Login() {
 
           button: {
             marginTop: 80,
-            width: "30%",
-            height: "8%",
-
+            width: 150,
+            height: 50
           },
 
           buttonText: {

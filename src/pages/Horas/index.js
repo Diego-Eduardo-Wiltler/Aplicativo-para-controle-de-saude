@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {Text, View, Image, StyleSheet} from 'react-native';
 import {Button, Title, TextInput} from 'react-native-paper';
@@ -47,7 +47,7 @@ export default function Horas() {
     const [tipo, setTipo] = useState('Nenhum');
     const [exercicio, setExercicio] = useState();
     const [obrigatorioDias, setObrigatorioDias] = useState('');
-    const [obrigatorioHorario, setObrigatorioHorario] = useState('');
+    const [successCreated, setSuccessCreated] = useState('');
     const pickerRef = useRef();
 
     const setAsyncStates = async () => {
@@ -74,7 +74,14 @@ export default function Horas() {
         var alarms = await AsyncStorage.getItem('alarms').then((value) => JSON.parse(value));
         alarms.push(object)
         await AsyncStorage.setItem('alarms', JSON.stringify(alarms));    
+        setSuccessCreated('Criado com sucesso!')
     }
+    useEffect(() => {
+        setTimeout(() => {
+            setSuccessCreated('')
+        }, 5000)
+        // setTimeout(, 5000) // // this will fire only when loadDataOnlyOnce-reference changes
+    }, [successCreated]);
 
     function setAlarm() {
         if (selectedItems.length === 0) {
@@ -221,7 +228,7 @@ export default function Horas() {
                             />                     
                         </ContainerContent>
                         <ContainerContent>
-                            <ContainerCol widthCol={'460'} >
+                            <ContainerCol widthCol={'460'} wrap={'nowrap'}>
                                 <MenuText inputSize={selectedTextSize}>Nome do remédio (opcional)</MenuText> 
                             </ContainerCol>
                             <ContainerCol widthCol={'345'} >
@@ -233,7 +240,7 @@ export default function Horas() {
                             </ContainerCol>
                         </ContainerContent>   
                         <ContainerContent>  
-                            <ContainerCol widthCol={'460'} >
+                            <ContainerCol widthCol={'460'} wrap={'nowrap'}>
                                 <MenuText inputSize={selectedTextSize}>Nome do exercício (opcional)</MenuText>
                             </ContainerCol>
                             <ContainerCol widthCol={'345'} >
@@ -245,12 +252,15 @@ export default function Horas() {
                             </ContainerCol>
                         </ContainerContent>
                         <ContainerContent> 
-                            <ContainerCol widthCol={'460'} >
+                            <ContainerCol widthCol={'460'}>
                                 <Button  labelStyle={styles.buttonText} 
                                     mode="contained" color="green" style={{ width:200, marginLeft: '18%' }}
                                     title='Entrar' onPress={() => {setAlarm()}}>
                                     Salvar
                                 </Button> 
+                                {(successCreated!== '') ? 
+                                    <MenuText style={{color: 'green',marginLeft: '18%' }} inputSize={parseInt(selectedTextSize) - 8}>{successCreated}</MenuText> 
+                                    : <></>}
                             </ContainerCol>
                         </ContainerContent>
                 </ContainerBody>

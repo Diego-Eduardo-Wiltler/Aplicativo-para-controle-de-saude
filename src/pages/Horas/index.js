@@ -11,32 +11,32 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Horas() {
     const items = [
         {
-            id: '1',
+            id: 'Dom',
             name: 'Domingo'
         },
 
         {
-            id: "2",
+            id: "Seg",
             name: 'Segunda'
         }, 
         {
-            id: '3',
+            id: 'Ter',
             name: 'Terça'
         },
         {
-            id: '4',
+            id: 'Qua',
             name: 'Quarta'
         },
         {
-            id: '5',
+            id: 'Qui',
             name: 'Quinta'
         },
         {
-            id: '6',
+            id: 'Sex',
             name: 'Sexta'
         },
         {
-            id: '7',
+            id: 'Sab',
             name: 'Sabado'
         },
       
@@ -44,22 +44,25 @@ export default function Horas() {
     const [selectedItems, setSelectedItems] = useState([]);
     const [selectedTextSize, setSelectedTextSize] = useState();
     const [remedio, setRemedio] = useState();
-    const [tipo, setTipo] = useState('N');
+    const [tipo, setTipo] = useState('Nenhum');
     const [exercicio, setExercicio] = useState();
+    const [obrigatorioDias, setObrigatorioDias] = useState('');
+    const [obrigatorioHorario, setObrigatorioHorario] = useState('');
     const pickerRef = useRef();
 
     const setAsyncStates = async () => {
         await AsyncStorage.getItem('selectedTextSize').then((value) => setSelectedTextSize(value))
     };
-    setInterval(setAsyncStates, 1000)
+    setInterval(setAsyncStates, 2000)
    
     const [date, setDate] = useState(new Date())
     const [open, setOpen] = useState(false)
   
     const onSelectedItemsChange = (selectedItems) => {
-      setSelectedItems(selectedItems);
+        setObrigatorioDias('')
+        setSelectedItems(selectedItems);
     };
-
+    
     const navigation = useNavigation();
 
     const setTypeWithStorage = async (value) => {
@@ -67,15 +70,27 @@ export default function Horas() {
         await AsyncStorage.setItem('type', value.toString());
     }
 
+    const setAlarms = async (object) => {
+        var alarms = await AsyncStorage.getItem('alarms').then((value) => JSON.parse(value));
+        alarms.push(object)
+        await AsyncStorage.setItem('alarms', JSON.stringify(alarms));    
+    }
+
     function setAlarm() {
-        var object = {
-            'tipo' : tipo,
-            'diasDaSemana' : selectedItems,
-            'horario' : date
+        if (selectedItems.length === 0) {
+            setObrigatorioDias('Os dias são obrigatórios!')
+        } else {
+            var object = {
+                'tipo' : tipo,
+                'diasDaSemana' : selectedItems,
+                'horario' : date,
+                'remedio': remedio,
+                'exercicio': exercicio
+            }
+            setAlarms(object);
         }
         console.log(object);
     }
-
 
     const styles = StyleSheet.create({
         button: {
@@ -103,8 +118,6 @@ export default function Horas() {
 
     })
 
-
-
     return (
         <View style={{flex: 1}}>
             <ContainerMain>
@@ -131,15 +144,18 @@ export default function Horas() {
                                     onValueChange={(itemValue, itemIndex) =>
                                         setTipo(itemValue)
                                     }>
-                                    <Picker.Item key={0} label="Nenhum" value="N" />
-                                    <Picker.Item key={1} label="Remédio" value="R" />
-                                    <Picker.Item key={2} label="Exercício" value="E" />
+                                    <Picker.Item key={0} label="Nenhum" value="Nenhum" />
+                                    <Picker.Item key={1} label="Remédio" value="Remédio" />
+                                    <Picker.Item key={2} label="Exercício" value="Exercício" />
                                 </Picker>    
                             </ContainerCol>
                         </ContainerContent>
                         <ContainerContent>
                             <ContainerCol widthCol={'460'} >
                                 <MenuText inputSize={selectedTextSize}>Defina os dias</MenuText>
+                                {(obrigatorioDias!== '') ? 
+                                    <MenuText style={{color: 'red'}} inputSize={parseInt(selectedTextSize) - 8}>{obrigatorioDias}</MenuText> 
+                                    : <></>}
                             </ContainerCol>
                             <ContainerCol inputSize={selectedTextSize} widthCol={'350'}>
                                 <MultiSelect
@@ -206,7 +222,7 @@ export default function Horas() {
                         </ContainerContent>
                         <ContainerContent>
                             <ContainerCol widthCol={'460'} >
-                                <MenuText inputSize={selectedTextSize}>Insira o nome do remédio (opcional)</MenuText> 
+                                <MenuText inputSize={selectedTextSize}>Nome do remédio (opcional)</MenuText> 
                             </ContainerCol>
                             <ContainerCol widthCol={'345'} >
                                 <TextInput
@@ -218,7 +234,7 @@ export default function Horas() {
                         </ContainerContent>   
                         <ContainerContent>  
                             <ContainerCol widthCol={'460'} >
-                                <MenuText inputSize={selectedTextSize}>Insira o nome do exercício (opcional)</MenuText>
+                                <MenuText inputSize={selectedTextSize}>Nome do exercício (opcional)</MenuText>
                             </ContainerCol>
                             <ContainerCol widthCol={'345'} >
                                 <TextInput

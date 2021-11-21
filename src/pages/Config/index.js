@@ -8,7 +8,7 @@ import {Picker} from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Config() {
-    const [selectedTextSize, setSelectedTextSize] = useState();
+    const [selectedTextSize, setSelectedTextSize] = useState('25');
     const pickerRef = useRef();
 
     // const setAsyncStates = async () => {
@@ -39,8 +39,6 @@ export default function Config() {
         await AsyncStorage.setItem('darkMode', value.toString());
     }
     const selectedTextSizeWithStorage = async (value) => {
-        console.log(value);
-        console.log(typeof(value));
         setSelectedTextSize(value);
         await AsyncStorage.setItem('selectedTextSize', value.toString());
     }

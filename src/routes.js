@@ -27,6 +27,7 @@ export default function Routes(){
     const [darkMode, setDarkMode] = useState(false);
     const setAsyncStates = async () => {
         await AsyncStorage.getItem('darkMode').then((value) => setDarkMode(JSON.parse(value) ?? false))
+        // console.log('dentro')
     };
     const verifyAlarms = async () => {
         a = await AsyncStorage.getItem('alarms').then((value) => JSON.parse(value))
@@ -35,16 +36,24 @@ export default function Routes(){
         }
     };
     verifyAlarms();
-    var myInterval = setInterval(setAsyncStates, 1000);
+
+    useEffect(() => {
+        setAsyncStates()
+        const interval = setInterval(() => {
+            setAsyncStates()
+        }, 1000);
+        
+        return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+    }, [])
 
     return (
         <NavigationContainer theme={darkMode ? MyTheme : DefaultTheme }>
             <App.Navigator>
-               {/* <App.Screen name="Login" options={{headerShown: false}} component={Login}/>  */}
-               {/* <App.Screen name="Home" options={{headerShown: false}} component={Home}/>  */}
+               <App.Screen name="Login" options={{headerShown: false}} component={Login}/> 
+               <App.Screen name="Home" options={{headerShown: false}} component={Home}/> 
                <App.Screen name="Horas" options={{headerShown: false}} component={Horas}/> 
-               <App.Screen name="Config" options={{headerShown: false}} component={Config}/> 
                <App.Screen name="SeusHorarios" options={{headerShown: false}} component={SeusHorarios}/> 
+               <App.Screen name="Config" options={{headerShown: false}} component={Config}/> 
 
             </App.Navigator>
         </NavigationContainer>
